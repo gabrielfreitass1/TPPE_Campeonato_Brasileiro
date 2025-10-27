@@ -1,24 +1,47 @@
-def gerar_rodadas(times):
-    # Se número ímpar de times, adiciona um time "Folga"
-    if len(times) % 2 != 0:
-        times.append("Folga")
+from src.partida import Partida
+import random
+
+class Rodada:
+    def __init__(self, numero, partidas):
+        self.numero = numero
+        self.partidas = partidas
+
+    def jogar(self):
+        print(f"\n=== Rodada {self.numero} ===")
+        for partida in self.partidas:
+            partida.jogar()
+            print(f"{partida.mandante.nome} {partida.gols_mandante} x {partida.gols_visitante} {partida.visitante.nome}")
+
+def gerar_rodadas(times, seed=None):
+    if seed is not None:
+        random.seed(seed)
 
     num_times = len(times)
-    num_rodadas = num_times - 1
-    metade = num_times // 2
+    if num_times % 2 != 0:
+        times.append(None)  # caso ímpar
 
+    lista = times[:]
     rodadas = []
-    for r in range(num_rodadas):
-        rodada = []
-        for i in range(metade):
-            mandante = times[i]
-            visitante = times[num_times - 1 - i]
-            if mandante != "Folga" and visitante != "Folga":
-                rodada.append((mandante, visitante))
-        rodadas.append(rodada)
 
-        times = [times[0]] + [times[-1]] + times[1:-1]
+    # Gera rodadas de ida
+    for rodada_num in range(num_times - 1):
+        partidas = []
+        for i in range(num_times // 2):
+            mandante = lista[i]
+            visitante = lista[-(i + 1)]
+            if mandante is not None and visitante is not None:
+                if rodada_num % 2 == 0:
+                    partidas.append(Partida(mandante, visitante))
+                else:
+                    partidas.append(Partida(visitante, mandante))
+        rodadas.append(Rodada(rodada_num + 1, partidas))
 
-    rodadas_volta = [[(v, m) for (m, v) in rodada] for rodada in rodadas]
+        # rotaciona os times
+        lista = [lista[0]] + [lista[-1]] + lista[1:-1]
 
-    return rodadas + rodadas_volta
+    # Gera retorno
+    for i, rodada in enumerate(rodadas.copy(), start=len(rodadas) + 1):
+        partidas_invertidas = [Partida(p.visitante, p.mandante) for p in rodada.partidas]
+        rodadas.append(Rodada(i, partidas_invertidas))
+
+    return rodadas
