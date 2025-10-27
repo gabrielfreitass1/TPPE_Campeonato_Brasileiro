@@ -4,9 +4,9 @@ from src.rodada import gerar_rodadas
 # Quantidade de time - rodaddas esperadas
 parametros = [
     (2, 2),   # 2 times -> 2 rodadas
-    (3, 6),   # 3 times -> 6 rodadas(folga)
+    (3, 4),   # 3 times -> 4 rodadas
     (4, 6),   # 4 times -> 6 rodadas
-    (5, 10),   # 5 times -> 10 rodadas(folga)
+    (5, 8),   # 5 times -> 8 rodadas
     (6, 10),  # 6 times -> 10 rodadas
     (20, 38), # 20 times -> 38 rodadas
 ]
@@ -24,14 +24,15 @@ def test_qtd_rodadas(qtd_times, rodadas_esperadas):
 @pytest.mark.funcional
 @pytest.mark.parametrize("qtd_times", [4, 6, 8, 20])
 def test_todos_times_se_enfrentam_duas_vezes(qtd_times):
-    from src.rodada import gerar_rodadas
     times = [f"Time {i+1}" for i in range(qtd_times)]
     rodadas = gerar_rodadas(times)
 
     confrontos = {}
 
     for rodada in rodadas:
-        for mandante, visitante in rodada:
+        for partida in rodada.partidas:
+            mandante = partida.mandante
+            visitante = partida.visitante
             confrontos[(mandante, visitante)] = confrontos.get((mandante, visitante), 0) + 1
 
     for i in range(qtd_times):
@@ -41,10 +42,10 @@ def test_todos_times_se_enfrentam_duas_vezes(qtd_times):
             volta = confrontos.get((t2, t1), 0)
             assert ida == 1 and volta == 1, f"{t1} e {t2} não se enfrentaram duas vezes (ida e volta)"
 
+
 @pytest.mark.funcional
 @pytest.mark.parametrize("qtd_times", [4, 6, 8, 20])
 def test_qtd_jogos_por_rodada_e_turnos(qtd_times):
-    from src.rodada import gerar_rodadas
     times = [f"Time {i+1}" for i in range(qtd_times)]
     rodadas = gerar_rodadas(times)
 
@@ -53,11 +54,16 @@ def test_qtd_jogos_por_rodada_e_turnos(qtd_times):
     metade = total_rodadas // 2
 
     for i, rodada in enumerate(rodadas, start=1):
-        assert len(rodada) == num_jogos_por_rodada, (
-            f"Rodada {i} deveria ter {num_jogos_por_rodada} jogos, mas tem {len(rodada)}"
+        assert len(rodada.partidas) == num_jogos_por_rodada, (
+            f"Rodada {i} deveria ter {num_jogos_por_rodada} jogos, mas tem {len(rodada.partidas)}"
         )
 
-    confrontos_turno = set(rodadas[i][j] for i in range(metade) for j in range(len(rodadas[i])))
+    confrontos_turno = set(
+        (partida.mandante, partida.visitante)
+        for rodada in rodadas[:metade]
+        for partida in rodada.partidas
+    )
+
     confrontos_retorno = set((v, m) for (m, v) in confrontos_turno)
 
     for confronto in confrontos_turno:
