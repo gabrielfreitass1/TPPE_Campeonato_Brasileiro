@@ -41,4 +41,4 @@ class Time:
     def __repr__(self):
         return (f"{self.nome} - {self.pontos} pts, "
                 f"{self.vitorias}V, {self.empates}E, {self.derrotas}D, "
-                f"SG {self.saldo_gols}")
+                f"SG {self.saldo_gols}")  # type: ignore
