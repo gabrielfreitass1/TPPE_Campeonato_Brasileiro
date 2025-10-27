@@ -1,4 +1,5 @@
 # TPPE_Campeonato_Brasileiro
+
 Trabalho da Disciplina de Técnicas de Programação para Plataformas Emergentes do professor Andre Lanna da UNB
 
 ## Equipe
@@ -34,7 +35,7 @@ TPPE_Campeonato_Brasileiro/
 │   ├── classificacao.py           # Calcula a tabela de classificação
 │   └── utils.py                   # Funções auxiliares (ex: critério de desempate)
 │
-├── tests/
+├── testes/
 │   ├── __init__.py
 │   ├── test_time.py               # Testes unitários da classe Time
 │   ├── test_partida.py            # Testes da lógica de partidas
@@ -43,7 +44,7 @@ TPPE_Campeonato_Brasileiro/
 │   └── test_alltests.py           # Suíte "AllTests" que executa todos os testes
 │
 ├── requirements.txt               # Dependências
-└── README.md                      # Instruções do trabalho
+└── README.md                      # Descrição do trabalho
 
 ```
 ## Instruções de Uso
@@ -58,5 +59,10 @@ TPPE_Campeonato_Brasileiro/
 
 3. **Execução dos Tetes**:
     ``` 
-    pytest -v
+    pytest
     ```
+
+4. **Relatorio em HTML com teste de cobertura**
+   ```
+   pytest --cov=src --cov-report=html:tests/relatorios/cobertura --html=tests/relatorios/relatorio.html
+   ```
