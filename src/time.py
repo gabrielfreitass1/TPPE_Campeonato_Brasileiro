@@ -37,8 +37,7 @@ class Time:
         else:
             self.adicionar_derrota(gols_pro, gols_contra)
 
-
     def __repr__(self):
         return (f"{self.nome} - {self.pontos} pts, "
                 f"{self.vitorias}V, {self.empates}E, {self.derrotas}D, "
-                f"SG {self.saldo_gols}")  # type: ignore
+                f"SG {self.saldo_gols}")
