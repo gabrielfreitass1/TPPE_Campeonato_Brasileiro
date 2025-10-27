@@ -3,8 +3,10 @@ Trabalho da Disciplina de Técnicas de Programação para Plataformas Emergentes
 
 ## Equipe
 
-Gabriel Freitas Balbino - 180075462
-Rodrigo Mattos de Figueiredo Ayres Bezerra - 180108875
+- Eric Camargo da Silva - 202016168
+- Gabriel Freitas Balbino - 180075462
+- Guilherme Aguera de la Fuente Vilela - 190088168
+- Rodrigo Mattos de Figueiredo Ayres Bezerra - 180108875
 
 ## Objetivo do trabalho
 O objetivo deste trabalho é desenvolver uma aplicação em python que simule o funcionamento do Campeonato Brasileiro Série A de 2025, utilizando conceitos os seguintes conceitos:
