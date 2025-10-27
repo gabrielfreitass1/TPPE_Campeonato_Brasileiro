@@ -16,22 +16,32 @@ def gerar_rodadas(times, seed=None):
     if seed is not None:
         random.seed(seed)
 
-    rodadas = []
     num_times = len(times)
+    if num_times % 2 != 0:
+        times.append(None)  # caso ímpar
 
-    partidas = []
-    for i in range(num_times):
-        for j in range(i + 1, num_times):
-            partidas.append(Partida(times[i], times[j]))
-            partidas.append(Partida(times[j], times[i]))
+    lista = times[:]
+    rodadas = []
 
-    random.shuffle(partidas)
+    # Gera rodadas de ida
+    for rodada_num in range(num_times - 1):
+        partidas = []
+        for i in range(num_times // 2):
+            mandante = lista[i]
+            visitante = lista[-(i + 1)]
+            if mandante is not None and visitante is not None:
+                if rodada_num % 2 == 0:
+                    partidas.append(Partida(mandante, visitante))
+                else:
+                    partidas.append(Partida(visitante, mandante))
+        rodadas.append(Rodada(rodada_num + 1, partidas))
 
-    jogos_por_rodada = num_times//2
-    numero_rodada = 1
-    
-    for i in range(0, len(partidas), jogos_por_rodada):
-        rodadas.append(Rodada(numero_rodada, partidas[i:i + jogos_por_rodada]))
-        numero_rodada += 1
+        # rotaciona os times
+        lista = [lista[0]] + [lista[-1]] + lista[1:-1]
+
+    # Gera retorno
+    for i, rodada in enumerate(rodadas.copy(), start=len(rodadas) + 1):
+        partidas_invertidas = [Partida(p.visitante, p.mandante) for p in rodada.partidas]
+        rodadas.append(Rodada(i, partidas_invertidas))
 
     return rodadas
