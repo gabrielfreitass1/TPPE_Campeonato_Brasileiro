@@ -1,3 +1,5 @@
+from utils import determina_resultado
+
 class Time:
     def __init__(self, nome):
         self.nome = nome
@@ -30,12 +32,7 @@ class Time:
         self.gols_sofridos += gols_contra
 
     def registrar_resultado(self, gols_pro, gols_contra):
-        if gols_pro > gols_contra:
-            self.adicionar_vitoria(gols_pro, gols_contra)
-        elif gols_pro == gols_contra:
-            self.adicionar_empate(gols_pro, gols_contra)
-        else:
-            self.adicionar_derrota(gols_pro, gols_contra)
+        determina_resultado(self, gols_pro, gols_contra)
 
     def __repr__(self):
         return (f"{self.nome} - {self.pontos} pts, "
