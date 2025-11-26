@@ -11,6 +11,7 @@ class GeradorDeRodadas:
         self.lista_times = []
         self.rodadas = []
         self.num_times = 0
+        self.n_original = len(times)
 
     def _preparar_times(self):
         """Ajusta a lista de times para o algoritmo de Round-Robin (inclui 'None' se ímpar)."""
@@ -29,7 +30,7 @@ class GeradorDeRodadas:
         """Gera a primeira metade das rodadas (jogos de ida)."""
         
         # O loop roda N-1 vezes, onde N é o número de times (mesmo com o fantasma)
-        for rodada_num in range(self.num_times - 1):
+        for rodada_num in range(self.n_original - 1):
             partidas = []
             
             # Gera as partidas para a rodada atual
@@ -54,8 +55,8 @@ class GeradorDeRodadas:
         """Gera a segunda metade das rodadas (jogos de volta), invertendo as partidas de ida."""
         
         # Copia as rodadas de ida para evitar modificar a lista durante a iteração
-        rodadas_ida_copia = self.rodadas.copy()
-        numero_rodada_inicial = len(self.rodadas) + 1
+        rodadas_ida_copia = self.rodadas[:self.n_original-1]  # só as rodadas da IDA
+        numero_rodada_inicial = self.n_original
         
         # Itera sobre a cópia e inverte as partidas
         for i, rodada in enumerate(rodadas_ida_copia, start=numero_rodada_inicial):
@@ -68,3 +69,6 @@ class GeradorDeRodadas:
         self._gerar_rodadas_ida()
         self._gerar_rodadas_volta()
         return self.rodadas
+
+def gerar_rodadas(times, seed=None):
+    return GeradorDeRodadas(times, seed).executar()

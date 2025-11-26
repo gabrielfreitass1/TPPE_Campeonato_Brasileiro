@@ -1,5 +1,5 @@
 import pytest
-from src.rodada import gerar_rodadas
+from src.gerador_rodadas import gerar_rodadas
 
 # Quantidade de time - rodaddas esperadas
 parametros = [

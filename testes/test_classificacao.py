@@ -2,7 +2,7 @@ import pytest
 from src.time import Time
 from src.partida import Partida
 from src.classificacao import Classificacao
-from src.rodada import gerar_rodadas
+from src.gerador_rodadas import gerar_rodadas
 
 @pytest.fixture
 def times_exemplo():
