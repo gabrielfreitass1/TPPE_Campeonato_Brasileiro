@@ -1,6 +1,6 @@
 from src.time import Time
 from src.classificacao import Classificacao
-from src.rodada import gerar_rodadas
+from src.gerador_rodadas import gerar_rodadas
 
 def exibir_classificacao(times):
     classificacao = Classificacao(times)
