@@ -1,8 +1,8 @@
 from utils import determina_resultado
 
-class Time:
-    def __init__(self, nome):
-        self.nome = nome
+
+class EstatisticasTime:
+    def __init__(self):
         self.pontos = 0
         self.vitorias = 0
         self.empates = 0
@@ -30,6 +30,49 @@ class Time:
         self.derrotas += 1
         self.gols_marcados += gols_pro
         self.gols_sofridos += gols_contra
+
+
+class Time:
+    def __init__(self, nome):
+        self.nome = nome
+        self._estatisticas = EstatisticasTime()
+
+    @property
+    def pontos(self):
+        return self._estatisticas.pontos
+
+    @property
+    def vitorias(self):
+        return self._estatisticas.vitorias
+
+    @property
+    def empates(self):
+        return self._estatisticas.empates
+
+    @property
+    def derrotas(self):
+        return self._estatisticas.derrotas
+
+    @property
+    def gols_marcados(self):
+        return self._estatisticas.gols_marcados
+
+    @property
+    def gols_sofridos(self):
+        return self._estatisticas.gols_sofridos
+
+    @property
+    def saldo_gols(self):
+        return self._estatisticas.saldo_gols
+
+    def adicionar_vitoria(self, gols_pro=0, gols_contra=0):
+        self._estatisticas.adicionar_vitoria(gols_pro, gols_contra)
+
+    def adicionar_empate(self, gols_pro=0, gols_contra=0):
+        self._estatisticas.adicionar_empate(gols_pro, gols_contra)
+
+    def adicionar_derrota(self, gols_pro=0, gols_contra=0):
+        self._estatisticas.adicionar_derrota(gols_pro, gols_contra)
 
     def registrar_resultado(self, gols_pro, gols_contra):
         determina_resultado(self, gols_pro, gols_contra)
